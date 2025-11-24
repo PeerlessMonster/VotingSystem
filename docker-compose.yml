@@ -1,0 +1,62 @@
+services:
+  database:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    container_name: postgres
+    # 自动从当前目录 `.env` 文件读取环境变量
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}" ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+
+  voting:
+    build:
+      context: .
+      dockerfile: ./voting_service/Dockerfile
+    container_name: voting_service
+    env_file:
+      # 默认加载项目根目录的 `.env`
+      - ./voting_service/.env
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST:-database}
+      POSTGRES_PORT: ${POSTGRES_PORT:-5432}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-voting}
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - "${PORT:-6110}:80"
+
+  result:
+    build:
+      context: .
+      dockerfile: ./result_service/Dockerfile
+    container_name: result_service
+    env_file:
+      # 默认加载项目根目录的 `.env`
+      - ./result_service/.env
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST:-database}
+      POSTGRES_PORT: ${POSTGRES_PORT:-5432}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-voting}
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - "${PORT:-6111}:80"
+
+volumes:
+  data:

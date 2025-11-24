@@ -23,7 +23,7 @@ def _get_database_url() -> str:
         print(username, password, host, port, db)
         raise ValueError("数据库连接参数不完整，请检查环境变量配置")
 
-    return f"postgresql://{username}:{password}@{host}:{port}/{db}"
+    return f"postgresql+psycopg://{username}:{password}@{host}:{port}/{db}"
 
 
 # 创建数据库引擎

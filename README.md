@@ -16,6 +16,67 @@
 - 页面加载时通过 `GET /api/votes` 接口获取最新投票数据
 - 投票时间自动从 UTC 时间转换为本地时区时间
 
+## 运行步骤
+
+### 生产部署
+
+先将项目根目录、`result_service`、`voting_service` 下的 3 个 `.env.example` 都重命名为 `.env`，可以按需修改内容
+
+```bash
+# 根据 `docker-compose.yml` 中的配置在后台启动容器
+docker compose up -d
+```
+
+### 开发配置
+
+#### 1. 安装依赖
+
+- 直接使用 `pip`
+
+```bash
+# 在一个名为 `.venv` 的目录创建一个虚拟环境
+python -m venv .venv
+# 激活虚拟环境
+source .venv/Scripts/activate
+# 升级 `pip` 到最新版本
+# 在安装包时出现的许多奇怪的错误都可以解决
+python -m pip install --upgrade pip
+# 从 `requirements.txt` 安装软件包
+pip install -r requirements.txt
+```
+
+- 安装了 `conda`
+
+```bash
+# 根据 `environment.yml` 中的配置创建虚拟环境
+conda env create -f environment.yml
+# 激活虚拟环境
+conda activate VotingSystem
+```
+
+#### 2. 设置数据库
+
+先将项目根目录下的 `.env.example` 重命名为 `.env`，可以按需修改内容
+
+```bash
+# 根据 `docker-compose.dev.yml` 中的配置在后台启动容器
+docker compose -f ./docker-compose.dev.yml up -d
+```
+
+#### 3. 启动服务
+
+```bash
+# 确保位于是项目根目录下，从而加入 Python 模块搜索路径，否则找不到 common 模块
+cd ${PROJECT_LOCATION}/VotingSystem
+# 启动投票服务，指定 app 入口
+fastapi dev --entrypoint voting_service.app.main:app --port 6110
+# 启动结果展示服务
+fastapi dev --entrypoint result_service.app.main:app --port 6111
+
+# 若传入 app 入口路径，FastAPI 自动把该目录加入 Python 模块搜索路径，导致找不到 common 模块
+# fastapi dev ./voting_service/app --port 6110
+```
+
 ## 项目结构
 
 该系统包含两个核心服务：
@@ -58,63 +119,10 @@ VotingSystem/
 │   │   │   │   └── vote-render.js          # 结果渲染逻辑
 │   │   │   └── index.html                  # 结果展示页面
 │   │   └── main.py                         # 结果服务入口
-├── .env                                    # 环境变量配置
 └── .gitignore                              # Git 忽略文件配置
 ```
 
-## 运行步骤
-
-### 开发配置
-
-#### 1. 安装依赖
-
-- 直接使用 `pip`
-
-```bash
-# 在一个名为 `.venv` 的目录创建一个虚拟环境
-python -m venv .venv
-# 激活虚拟环境
-source .venv/Scripts/activate
-# 升级 `pip` 到最新版本
-# 在安装包时出现的许多奇怪的错误都可以解决
-python -m pip install --upgrade pip
-# 从 `requirements.txt` 安装软件包
-pip install -r requirements.txt
-```
-
-- 安装了 `conda`
-
-```bash
-# 根据 `environment.yml` 中的配置创建虚拟环境
-conda env create -f environment.yml
-# 激活虚拟环境
-conda activate VotingSystem
-```
-
-#### 2. 设置数据库
-
-先将项目根目录的 `.env.example` 重命名为 `.env`，按需修改内容
-
-```bash
-# 根据 `docker-compose.dev.yml` 中的配置在后台启动容器
-docker compose -f ./docker-compose.dev.yml up -d
-```
-
-#### 3. 启动服务
-
-```bash
-# 确保位于是项目根目录下，从而加入 Python 模块搜索路径，否则找不到 common 模块
-cd ${PROJECT_LOCATION}/VotingSystem
-# 启动投票服务，指定 app 入口
-fastapi dev --entrypoint voting_service.app.main:app --port 6110
-# 启动结果展示服务
-fastapi dev --entrypoint result_service.app.main:app --port 6111
-
-# 若传入 app 入口路径，FastAPI 自动把该目录加入 Python 模块搜索路径，导致找不到 common 模块
-# fastapi dev ./voting_service/app --port 6110
-```
-
-#### 4. API 文档
+FastAPI 集成的 Swagger UI（API 交互式文档）地址：
 
 - 投票服务（voting_service）：http://localhost:6110/docs
 - 结果服务（result_service）：http://localhost:6111/docs
