@@ -1,0 +1,246 @@
+:root {
+    --bg-color: #f0f4f8;
+    /* 背景色 */
+    --card-bg: rgba(255, 255, 255, 0.15);
+    --card-stroke: rgba(255, 255, 255, 0.6);
+    /* 卡片高亮描边 */
+    --result-bg: rgba(255, 255, 255, 0.25);
+    --divider-color: rgba(0, 0, 0, 0.12);
+    --text-color: #1a202c;
+    --blue-primary: #2b6cb0;
+    --blue-light: #3182ce;
+    --green-primary: #2f855a;
+    --green-light: #38a169;
+    --blur-strength: 20px;
+    --border-radius: 32px;
+    --result-radius: 22px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* 弥散风格背景 */
+    background:
+        radial-gradient(circle at 20% 30%, rgba(49, 130, 206, 0.3) 0%, transparent 45%),
+        radial-gradient(circle at 80% 70%, rgba(56, 161, 105, 0.3) 0%, transparent 45%),
+        radial-gradient(circle at 40% 80%, rgba(139, 92, 246, 0.2) 0%, transparent 35%),
+        radial-gradient(circle at 70% 20%, rgba(236, 201, 75, 0.2) 0%, transparent 35%);
+    background-color: var(--bg-color);
+}
+
+.voting-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(var(--blur-strength));
+    -webkit-backdrop-filter: blur(var(--blur-strength));
+    border-radius: var(--border-radius);
+    padding: 5rem 3rem 2.8rem;
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+    border: 1px solid var(--card-stroke);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.voting-card h1 {
+    color: var(--text-color);
+    font-size: 3.2rem;
+    font-weight: 700;
+    margin-bottom: 3.5rem;
+    /* 与总票数的距离 */
+    letter-spacing: -0.8px;
+}
+
+/* 总投票数区域 */
+.total-votes {
+    font-size: 1.4rem;
+    color: var(--text-color);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    /* 与结果区域的距离 */
+}
+
+/* 结果区域 */
+.results-container {
+    width: 95%;
+    margin: 0 auto 1rem;
+    /* 下方距离大小 */
+    display: flex;
+    background: var(--result-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: var(--result-radius);
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) inset;
+    padding: 2rem 0;
+    /* 上下内边距大小，为元素重新布局留出空间 */
+}
+
+.result-item {
+    flex: 1;
+    padding: 0 1.5rem;
+    /* 移除上下内边距，改为容器统一控制 */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* 分割线 */
+.result-item:first-child::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    /* 顶部距离 */
+    right: 0;
+    height: 100%;
+    /* 高度 */
+    width: 1px;
+    background-color: var(--divider-color);
+}
+
+.vote-count {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+}
+
+/* 百分比文字 */
+.percentage {
+    font-size: 4rem;
+    /* 大小 */
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.result-item h2 {
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin-bottom: auto;
+    /* 自动占据剩余空间，将时间推至底部 */
+}
+
+/* 上次投票时间 */
+.last-vote {
+    font-size: 0.9rem;
+    color: black;
+    margin-top: 2.2rem;
+    /* 增加上方距离，推至底部 */
+}
+
+.blue h2 {
+    color: var(--blue-primary);
+}
+
+.green h2 {
+    color: var(--green-primary);
+}
+
+.blue .percentage {
+    color: var(--blue-light);
+}
+
+.green .percentage {
+    color: var(--green-light);
+}
+
+@media (max-width: 768px) {
+    .voting-card {
+        padding: 4rem 2.5rem;
+        max-width: 90%;
+    }
+
+    .voting-card h1 {
+        font-size: 2.6rem;
+        margin-bottom: 3rem;
+    }
+
+    .total-votes {
+        font-size: 1.3rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .results-container {
+        width: 96%;
+        flex-direction: column;
+        padding: 1.8rem 0;
+        margin-bottom: 0.8rem;
+    }
+
+    .result-item {
+        padding: 0 1.2rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .result-item:first-child {
+        padding-bottom: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .result-item:first-child::after {
+        top: auto;
+        bottom: 0;
+        right: 10%;
+        height: 1px;
+        width: 80%;
+        /* 横向分割线长度 */
+    }
+
+    .result-item h2 {
+        font-size: 1.8rem;
+    }
+
+    .percentage {
+        font-size: 3.5rem;
+        /* 响应式下同比增大 */
+    }
+
+    .vote-count {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .voting-card {
+        padding: 3rem 2rem;
+        max-width: 95%;
+    }
+
+    .voting-card h1 {
+        font-size: 2.2rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .total-votes {
+        font-size: 1.2rem;
+    }
+
+    .result-item h2 {
+        font-size: 1.6rem;
+    }
+
+    .percentage {
+        font-size: 3rem;
+        /* 小屏幕下同比增大 */
+    }
+
+    .vote-count {
+        font-size: 1.3rem;
+    }
+
+    .last-vote {
+        font-size: 0.9rem;
+        margin-top: 1rem;
+    }
+}

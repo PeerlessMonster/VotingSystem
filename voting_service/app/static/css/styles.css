@@ -1,0 +1,173 @@
+/* 基础样式设置 - 色调配置 */
+:root {
+    --bg-color: #f0f4f8;
+    /* 背景色 */
+    --card-bg: rgba(255, 255, 255, 0.15);
+    --card-stroke: rgba(255, 255, 255, 0.6);
+    /* 卡片高亮描边 */
+    --text-color: #2a3440;
+    /* 文字色 */
+    --blue-primary: #3182ce;
+    /* 蓝色按钮主色 */
+    --blue-hover: #2b6cb0;
+    --green-primary: #38a169;
+    /* 绿色按钮主色 */
+    --green-hover: #2f855a;
+    --blur-strength: 18px;
+    --border-radius: 24px;
+    /* 卡片圆角大小 */
+    --button-radius: 18px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    padding: 1rem;
+    /* 四周空间大小 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* 弥散风格背景 */
+    background:
+        radial-gradient(circle at 20% 30%, rgba(49, 130, 206, 0.3) 0%, transparent 45%),
+        radial-gradient(circle at 80% 70%, rgba(56, 161, 105, 0.3) 0%, transparent 45%),
+        radial-gradient(circle at 40% 80%, rgba(139, 92, 246, 0.2) 0%, transparent 35%),
+        radial-gradient(circle at 70% 20%, rgba(236, 201, 75, 0.2) 0%, transparent 35%);
+    background-color: var(--bg-color);
+}
+
+/* 磨砂玻璃卡片 */
+.voting-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(var(--blur-strength));
+    -webkit-backdrop-filter: blur(var(--blur-strength));
+    border-radius: var(--border-radius);
+    padding: 5rem 3rem;
+    /* 内边距大小，卡片面积大小 */
+    width: 100%;
+    max-width: 800px;
+    /* 宽度 */
+    text-align: center;
+    border: 1px solid var(--card-stroke);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* 标题样式 */
+.voting-card h1 {
+    color: var(--text-color);
+    font-size: 3.2rem;
+    /* 标题文字大小 */
+    font-weight: 700;
+    margin-bottom: 3.5rem;
+    /* 与按钮的间距 */
+    letter-spacing: -0.8px;
+}
+
+/* 按钮容器 - 控制按钮居中且不充满卡片 */
+.buttons-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    /* 按钮间距 */
+    align-items: center;
+    /* 按钮居中 */
+    width: 100%;
+}
+
+/* 液态玻璃风格按钮 */
+.vote-button {
+    padding: 1.6rem 1rem;
+    /* 按钮内边距 */
+    border-radius: var(--button-radius);
+    border: none;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.25s ease;
+    opacity: 0.9;
+    /* 轻微透明 */
+    width: 65%;
+    /* 按钮宽度为卡片的65%，两侧留空间 */
+    box-shadow: 0 6px 28px rgba(0, 0, 0, 0.12),
+        0 0 20px rgba(255, 255, 255, 0.3) inset,
+        0 6px 12px var(--glow-color);
+}
+
+/* 蓝色按钮样式及发光效果 */
+.blue-btn {
+    background: var(--blue-primary);
+    --glow-color: rgba(43, 108, 176, 0.45);
+}
+
+/* 绿色按钮样式及发光效果 */
+.green-btn {
+    background: var(--green-primary);
+    --glow-color: rgba(47, 133, 90, 0.45);
+}
+
+/* 按压下沉效果 */
+.vote-button:hover {
+    transform: translateY(3px);
+    /* 增强下沉感 */
+    box-shadow: 0 3px 20px rgba(0, 0, 0, 0.09),
+        0 0 15px rgba(255, 255, 255, 0.2) inset,
+        0 3px 9px var(--glow-color);
+}
+
+.blue-btn:hover {
+    background: var(--blue-hover);
+}
+
+.green-btn:hover {
+    background: var(--green-hover);
+}
+
+/* 响应式设计调整 - 适配不同屏幕 */
+@media (max-width: 768px) {
+    .voting-card {
+        padding: 4rem 2.5rem;
+        max-width: 90%;
+        /* 在中等屏幕上占90%宽度 */
+    }
+
+    .voting-card h1 {
+        font-size: 2.6rem;
+        margin-bottom: 3rem;
+    }
+
+    .vote-button {
+        padding: 1.4rem;
+        font-size: 1.5rem;
+        width: 75%;
+        /* 中等屏幕上按钮稍宽 */
+    }
+}
+
+@media (max-width: 480px) {
+    .voting-card {
+        padding: 3rem 2rem;
+        max-width: 95%;
+        /* 在小屏幕上占95%宽度 */
+    }
+
+    .voting-card h1 {
+        font-size: 2.2rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .vote-button {
+        padding: 1.2rem;
+        font-size: 1.3rem;
+        width: 85%;
+        /* 小屏幕上按钮更宽 */
+    }
+}

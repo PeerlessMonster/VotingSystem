@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting Results</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script type="module" src="/static/js/vote-render.js" defer></script>
+
+</head>
+
+<body>
+    <div class="voting-card">
+        <h1>Voting Results</h1>
+
+        <div class="total-votes">
+            Total votes: <span id="total-votes-count">0</span>
+        </div>
+
+        <div class="results-container">
+            <div class="result-item blue">
+                <div class="vote-count">
+                    <span id="cats-vote-count">0</span> votes
+                </div>
+                <div class="percentage" id="cats-vote-percentage">0.0%</div>
+                <h2>🐱 CATS 🐱</h2>
+                <div class="last-vote">
+                    Last vote: <span id="cats-last-vote-time">No available data</span>
+                </div>
+            </div>
+
+            <div class="result-item green">
+                <div class="vote-count">
+                    <span id="dogs-vote-count">0</span> votes
+                </div>
+                <div class="percentage" id="dogs-vote-percentage">0.0%</div>
+                <h2>🐶 DOGS 🐶</h2>
+                <div class="last-vote">
+                    Last vote: <span id="dogs-last-vote-time">No available data</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
