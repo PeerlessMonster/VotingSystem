@@ -1,0 +1,22 @@
+services:
+  database:
+    # 构建本地 Dockerfile
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    # 自动从当前目录 `.env` 文件读取环境变量
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mysecretpassword}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+    # 端口映射：本地端口 -> 容器端口
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    # 临时数据卷
+    # 容器销毁后数据丢失，无需本地挂载
+    volumes:
+      - dev_data:/var/lib/postgresql/data
+
+# 定义临时数据卷
+# 不指定本地路径，由 Docker 管理
+volumes:
+  dev_data:
