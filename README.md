@@ -6,11 +6,15 @@
 
 ### 投票
 
+![投票服务——前端](./screenshots/voting-service.png)
+
 - 用户可通过投票页面点击“🐱 CATS 🐱”或“🐶 DOGS 🐶”按钮提交投票
 - 投票请求通过 `POST /api/votes/{option_name}` 接口提交
 - 后端接收请求后，原子性更新对应选项的票数和最后投票时间
 
 ### 结果展示
+
+![结果展示服务——前端](./screenshots/result-service.png)
 
 - 结果页面展示总票数、各选项的票数、百分比及最后投票时间
 - 页面加载时通过 `GET /api/votes` 接口获取最新投票数据
@@ -81,8 +85,8 @@ fastapi dev --entrypoint result_service.app.main:app --port 6111
 
 该系统包含两个核心服务：
 
-- **投票服务 (voting_service)**：提供投票界面和投票提交接口，用户可选择为"猫"或"狗"投票
-- **结果服务 (result_service)**：展示实时投票结果，包括总票数、各选项票数、百分比及最后投票时间
+- **投票服务 (`voting_service`)**：提供投票界面和投票提交接口，用户可选择为"猫"或"狗"投票
+- **结果服务 (`result_service`)**：展示实时投票结果，包括总票数、各选项票数、百分比及最后投票时间
 
 ```
 VotingSystem/
@@ -124,11 +128,11 @@ VotingSystem/
 
 FastAPI 集成的 Swagger UI（API 交互式文档）地址：
 
-- 投票服务（voting_service）：http://localhost:6110/docs
-- 结果服务（result_service）：http://localhost:6111/docs
+- 投票服务（`voting_service`）：http://localhost:6110/docs
+- 结果服务（`result_service`）：http://localhost:6111/docs
 
 ## 技术栈
 
-- **后端**：Python 3.8+, [FastAPI](https://fastapi.tiangolo.com), [SQLModel](https://sqlmodel.tiangolo.com/) (ORM)
+- **后端**：Python 3.8+, [FastAPI](https://fastapi.tiangolo.com), [SQLModel](https://sqlmodel.tiangolo.com/)
 - **前端**：HTML5, CSS3, 原生 JavaScript
 - **数据库**：PostgreSQL
